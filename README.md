@@ -17,12 +17,9 @@ Live: https://llms.hey5.studio
 ## Files
 | File | Purpose |
 |---|---|
-| `worker.js` | Cloudflare Worker — crawler, API, serves the frontend |
-| `wrangler.toml` | Worker + assets + rate-limit config |
-| `public/index.html` | Markup |
-| `public/style.css` | Styles |
-| `public/script.js` | Frontend logic — calls the API, copy/download |
-| `public/favicon.svg` | Browser tab icon |
+| `worker.js` | The whole app — crawler, API, and the frontend (HTML/CSS/JS inlined) |
+| `wrangler.toml` | Worker + rate-limit config |
+| `package.json` | Pins Wrangler 4 |
 `preview.html` is a single-file build for local testing with mock data. Not deployed.
 ## Notes
 Heavily JS-rendered sites expose fewer links in raw HTML, so fewer pages may be found — the crawler reads the HTML the server returns, not the rendered DOM.

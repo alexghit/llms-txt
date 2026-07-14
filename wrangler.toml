@@ -3,7 +3,7 @@ main = "worker.js"
 compatibility_date = "2024-11-01"
 
 [assets]
-directory = "."
+directory = "./public"
 binding = "ASSETS"
 
 # Per-IP rate limit on /api/generate: 5 requests per 60 seconds.

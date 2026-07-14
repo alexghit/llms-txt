@@ -17,13 +17,12 @@ Live: https://llms.hey5.studio
 ## Files
 | File | Purpose |
 |---|---|
-| `index.html` | Markup |
-| `style.css` | Styles |
-| `script.js` | Frontend logic — calls the API, copy/download |
 | `worker.js` | Cloudflare Worker — crawler, API, serves the frontend |
 | `wrangler.toml` | Worker + assets + rate-limit config |
-| `favicon.svg` | Browser tab icon |
-| `.assetsignore` | Keeps non-web files from being served publicly |
+| `public/index.html` | Markup |
+| `public/style.css` | Styles |
+| `public/script.js` | Frontend logic — calls the API, copy/download |
+| `public/favicon.svg` | Browser tab icon |
 `preview.html` is a single-file build for local testing with mock data. Not deployed.
 ## Notes
 Heavily JS-rendered sites expose fewer links in raw HTML, so fewer pages may be found — the crawler reads the HTML the server returns, not the rendered DOM.

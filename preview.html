@@ -8,16 +8,17 @@
   <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzAwMDAwMCIvPgogIDxwYXRoIGQ9Ik0zOSAxNiBMMjUgNDgiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <style>
 :root {
-  --bg: #060606;
+  --bg: #0c0c0e;
   --surface: #141416;
   --surface-2: #1c1c1f;
-  --line: #242427;
+  --line: rgba(255,255,255,.08);
+  --line-strong: rgba(255,255,255,.14);
   --text: #e8e8ea;
-  --muted: #6a6a70;
-  --faint: #3f3f45;
+  --muted: rgba(255,255,255,.5);
+  --faint: rgba(255,255,255,.3);
   --ghost: #202024;
   --radius: 12px;
 }
@@ -44,12 +45,13 @@ body {
   padding: 1.75rem clamp(1.5rem, 4vw, 3rem);
 }
 .wordmark, .label-r {
-  font-size: 0.78rem;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--muted);
   text-decoration: none;
 }
-.wordmark:hover { color: var(--text); }
+.wordmark:hover { color: rgba(255,255,255,.85); }
 
 /* Stage */
 .stage {
@@ -125,9 +127,9 @@ body {
   transition: background 0.15s, transform 0.05s;
 }
 .btn:hover { background: #26262a; }
-.btn:active { transform: scale(0.98); }
+.btn:active { transform: scale(0.94); }
 .btn:disabled { opacity: 0.4; cursor: default; }
-.btn-primary { background: #e8e8ea; color: #060606; }
+.btn-primary { background: rgba(255,255,255,.94); color: var(--bg); }
 .btn-primary:hover { background: #fff; }
 
 .status {
@@ -200,8 +202,8 @@ kbd {
   letter-spacing: 0.03em;
   color: var(--faint);
 }
-.foot a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
-.foot a:hover { color: var(--text); }
+.foot a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line-strong); transition: color .2s, border-color .2s; }
+.foot a:hover { color: rgba(255,255,255,.85); border-bottom-color: rgba(255,255,255,.4); }
 .heart { color: #6a6a70; }
 
 @media (max-width: 560px) {

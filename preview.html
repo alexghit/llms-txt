@@ -279,9 +279,31 @@ urlInput.addEventListener("input", () => {
   display.classList.toggle("on", urlInput.value.trim().length > 0);
 });
 
+function isValidUrl(value) {
+  let v = value.trim();
+  if (!v) return false;
+  if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+  let u;
+  try {
+    u = new URL(v);
+  } catch {
+    return false;
+  }
+  const host = u.hostname;
+  // must have a dot and a valid TLD-like ending, no spaces
+  if (/\s/.test(host)) return false;
+  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(host)) return false;
+  return true;
+}
+
 async function generate() {
   const value = urlInput.value.trim();
   if (!value) { setStatus("Enter a website URL.", true); urlInput.focus(); return; }
+  if (!isValidUrl(value)) {
+    setStatus("That doesn't look like a valid website URL.", true);
+    urlInput.focus();
+    return;
+  }
 
   go.disabled = true;
   setStatus("Crawling site…");

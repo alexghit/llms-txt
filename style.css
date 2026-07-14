@@ -1,0 +1,205 @@
+:root {
+  --bg: #060606;
+  --surface: #141416;
+  --surface-2: #1c1c1f;
+  --line: #242427;
+  --text: #e8e8ea;
+  --muted: #6a6a70;
+  --faint: #3f3f45;
+  --ghost: #202024;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.75rem clamp(1.5rem, 4vw, 3rem);
+}
+.wordmark, .label-r {
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-decoration: none;
+}
+.wordmark:hover { color: var(--text); }
+
+/* Stage */
+.stage {
+  flex: 1;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 2rem clamp(1.5rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.display {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(3.5rem, 11vw, 6rem);
+  line-height: 1;
+  color: var(--ghost);
+  letter-spacing: -0.01em;
+  margin-bottom: 3.5rem;
+  user-select: none;
+  transition: color 0.3s;
+}
+.display.on { color: var(--faint); }
+.display em { font-style: italic; }
+
+/* Field */
+.field {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  padding: 0.75rem 0.25rem;
+  transition: border-color 0.2s;
+}
+.field:focus-within { border-color: var(--muted); }
+.prefix { color: var(--faint); font-size: 1rem; }
+#url {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+#url::placeholder { color: var(--faint); }
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.btn {
+  background: var(--surface-2);
+  border: 0;
+  border-radius: 999px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+.btn:hover { background: #26262a; }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: default; }
+.btn-primary { background: #e8e8ea; color: #060606; }
+.btn-primary:hover { background: #fff; }
+
+.status {
+  min-height: 1.4rem;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.status.error { color: #d98a8a; }
+
+/* Result */
+.result {
+  width: 100%;
+  margin-top: 2.5rem;
+  animation: rise 0.35s ease;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.output-wrap {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+  overflow: hidden;
+}
+.meta {
+  display: block;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+.output {
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--text);
+  padding: 1.1rem;
+  max-height: 46vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Hint */
+.hint {
+  margin-top: 2.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--faint);
+}
+kbd {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0.15rem 0.45rem;
+  font-family: inherit;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* Footer */
+.foot {
+  padding: 2rem clamp(1.5rem, 4vw, 3rem);
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--faint);
+}
+.foot a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+.foot a:hover { color: var(--text); }
+.heart { color: #6a6a70; }
+
+@media (max-width: 560px) {
+  .topbar { padding: 1.25rem 1.25rem; }
+  .wordmark, .label-r { font-size: 0.7rem; letter-spacing: 0.16em; }
+  .stage { padding-top: 2.5rem; }
+  .display { margin-bottom: 2.5rem; }
+  .foot { font-size: 0.66rem; line-height: 1.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

@@ -314,8 +314,8 @@ async function generate() {
     const host = value.replace(/^https?:\/\//,"").replace(/\/.*$/,"");
     const name = host.split(".")[0].replace(/^./,c=>c.toUpperCase());
     const data = {
-      pages: 4,
-      llmstxt: `# ${name}\n\n> Example description pulled from the site's meta tags.\n\nThis file was drafted automatically from the site's pages. Review and edit the descriptions before publishing.\n\n## Pages\n\n- [Home](https://${host}/)\n- [Features](https://${host}/features): What the product does.\n- [Pricing](https://${host}/pricing): Plans and pricing.\n- [Contact](https://${host}/contact): Get in touch.`
+      pages: 6,
+      llmstxt: `# ${name}\n\n> Example summary pulled from the site's meta description.\n\n## Main\n\n- [Home](https://${host}/): Landing page.\n- [About](https://${host}/about): Who we are and what we do.\n\n## Docs\n\n- [Getting Started](https://${host}/docs/start): Setup and first steps.\n- [API](https://${host}/docs/api): API reference.\n\n## Optional\n\n- [Privacy](https://${host}/privacy): Privacy policy.\n- [Terms](https://${host}/terms): Terms of service.`
     };
 
     current = data.llmstxt;

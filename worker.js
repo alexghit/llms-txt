@@ -570,18 +570,61 @@ function buildLlmsTxt(root, { site, pages }) {
     lines.push(`> ${site.description}`);
     lines.push("");
   }
-  lines.push(
-    "This file was drafted automatically from the site's pages. Review and edit the descriptions before publishing."
-  );
-  lines.push("");
-  lines.push("## Pages");
-  lines.push("");
+
+  // Pages the LLM can skip if short on context — spec's special "Optional" section.
+  const optionalRe = /\/(privacy|terms|legal|cookie|changelog|status|sitemap|imprint|accessibility|disclaimer|refund|returns|shipping)/i;
+
+  const homeUrl = root.origin + "/";
+  const main = [];
+  const optional = [];
+  const groups = new Map(); // section name -> pages[]
+
   for (const p of pages) {
-    const desc = p.description ? `: ${p.description}` : "";
-    lines.push(`- [${p.title}](${p.url})${desc}`);
+    if (p.url === homeUrl) {
+      main.push(p); // homepage leads the Main section
+      continue;
+    }
+    if (optionalRe.test(p.url)) {
+      optional.push(p);
+      continue;
+    }
+    // Group by first path segment: /blog/x -> "Blog", /docs/y -> "Docs"
+    const seg = new URL(p.url).pathname.split("/").filter(Boolean)[0] || "";
+    const name = seg ? seg.charAt(0).toUpperCase() + seg.slice(1).replace(/[-_]/g, " ") : "Main";
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(p);
   }
+
+  const line = (p) => `- [${p.title}](${p.url})${p.description ? `: ${p.description}` : ""}`;
+
+  // Sections with only one page collapse into "Main" to avoid a wall of tiny headers.
+  const mainExtras = [];
+  const realGroups = [];
+  for (const [name, gp] of groups) {
+    if (gp.length === 1) mainExtras.push(gp[0]);
+    else realGroups.push([name, gp]);
+  }
+
+  lines.push("## Main");
   lines.push("");
-  return lines.join("\n");
+  for (const p of [...main, ...mainExtras]) lines.push(line(p));
+  lines.push("");
+
+  for (const [name, gp] of realGroups) {
+    lines.push(`## ${name}`);
+    lines.push("");
+    for (const p of gp) lines.push(line(p));
+    lines.push("");
+  }
+
+  if (optional.length) {
+    lines.push("## Optional");
+    lines.push("");
+    for (const p of optional) lines.push(line(p));
+    lines.push("");
+  }
+
+  return lines.join("\n").replace(/\n{3,}/g, "\n\n").trimEnd() + "\n";
 }
 
 function decode(s) {

@@ -6,8 +6,16 @@ const PAGE = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLMs Text</title>
+  <title>llms.txt Generator</title>
   <meta name="description" content="Draft an llms.txt file for any website." />
+  <link rel="canonical" href="https://llms.hey5.studio/" />
+  <meta property="og:title" content="llms.txt Generator" />
+  <meta property="og:description" content="Draft an llms.txt file for any website." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://llms.hey5.studio/" />
+  <meta property="og:image" content="https://llms.hey5.studio/icon128.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#0c0c0e" />
   <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzAwMDAwMCIvPgogIDxwYXRoIGQ9Ik0zOSAxNiBMMjUgNDgiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -372,12 +380,52 @@ urlInput.focus();
 </html>
 `;
 
+// Crawlers and link previews fetch these by URL, so the Worker serves them
+// as routes — there's no static-assets directory to put them in.
+const ROBOTS = `User-agent: *
+Allow: /
+
+Sitemap: https://llms.hey5.studio/sitemap.xml
+`;
+
+const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://llms.hey5.studio/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>
+`;
+
+const ICON_PNG = "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAENklEQVR4nOydvyu9cRTHz/UVBiZFKGIzCLHYZDEYlElMopQSFv+GH4vJpuRmYbRgUIRiYpDkhlgMigz33u+p7yKd732e7Zzzvuc13numz6v35/N53s/wVFKgSiUFqoQAZUKAMiFAmRCgTAhQJgQoEwKUCQHKhABlQoAyIUCZEKBMCFAmBCgTApQJAcqEAGVCgDIhQJkQoEwIUCYEKBMClAkBylQQOiMjI9lsNpfLvb297e/vz87OkiUyhEt9ff3m5ubo6Oiv38/OzsbHxx8eHsgAsAIymczJycnAwID47+XlZX9/PxngD4GyvLw8NTX1v3+bm5tfXl5YA2mDmYCqqqrHx8fGxsYSMwcHB8PDw6QN5i1oYmKi9Ooz3d3dZABMAQsLC4kz+XyeDAAoYHBwsKenJ3Hs/PycDAAoYHFxMc0Y35HIAGiHcHt7+93dXUVFwgPm9/d3U1PT+/s7aYOWAN79E1ef2d7etrD6BJaA2tra5+fnurq6xMnOzs7b21syAFQCZmZm0qz+0dGRkdUnJAHcPczPz6eZXF1dJTPgCODSraOjI3Hs/v5+b2+PzIAjIOXtc319nSwBcghzr3B1dZU49vHxwRXF19cXmQEkAUtLS2nG+PWAqdUnjAQ0NDRw91ldXV16rFAotLa2Pj09kSUQEjA3N5e4+gy/j7S2+gSQgDTV/z+4pDs+PiZjuE9Amuqf4SPa4OoTgIA01T8Ze/j6ie8tiHeVw8PDxLHX19eWlhYjb2B+4TsBKR++NjY2bK4+uU6Au+pfxHEC3FX/Il4T4LH6F/GaAI/Vv4hLAU6rfxGXApxW/yIuBTit/kX8HcJ+q38RfwnwW/2LOEuA6+pfxFkCXFf/Ip4S4L36F/GUAO/Vv4gnAd6rfxE3WxBA9S/iJgEA1b+IjwRgVP8iPhKAUf2LOEgATPUv4iABMNW/iHUBSNW/iHUBSNW/iHUBSNW/iOlDGKz6FzGdALDqX8RuAvCqfxG7CcCr/kWMJgCy+hcxmgDI6l/EqADI6l/E4haEWv2LWEwAavUvYi4BwNW/iLkEAFf/IrYSgF39i9hKAHb1L2JIAHz1L2JIAHz1L2JIAHz1L2LlEC6H6l/ESgLKofoXMZGAMqn+RUwkYHp6Ok31z2cv2OqTEQFDQ0NpxtbW1ggO/S2Ir/+fn581NTWlx/iI7u3tJThMJKBYLCbOID18/UT/M1a8+hcXF6VnuPrf2toiREx8R2xnZ6f0wMrKCkD1L2LiGsr9M2/xXV1d4r/X19d9fX2oAkwkgC/4Y2Nj4jdFbm5uJicnUVefrL0P4Lcx/Ejc1taWy+VOT093d3ez2SxBg/wpQxfE11SVCQHKhABlQoAyIUCZEKBMCFAmBCgTApQJAcqEAGVCgDIhQJkQoEwIUCYEKBMClAkByoQAZUKAMiFAmRCgTAhQJgQoEwKU+QsAAP//VQALbQAAAAZJREFUAwDxlebA4CD2bQAAAABJRU5ErkJggg==";
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/generate") {
       return handleGenerate(request, env);
+    }
+
+    if (url.pathname === "/robots.txt") {
+      return new Response(ROBOTS, {
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
+
+    if (url.pathname === "/sitemap.xml") {
+      return new Response(SITEMAP, {
+        headers: { "Content-Type": "application/xml; charset=utf-8" },
+      });
+    }
+
+    if (url.pathname === "/icon128.png") {
+      return new Response(Uint8Array.from(atob(ICON_PNG), c => c.charCodeAt(0)), {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "public, max-age=604800",
+        },
+      });
     }
 
     // Serve the inlined single-page app for everything else.

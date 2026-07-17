@@ -31,7 +31,9 @@ wrangler.toml   Worker and rate-limit config
 package.json    pins Wrangler 4 for local dev
 ```
 
-Any path other than `/api/generate` serves the app, so a wrong URL lands on the tool rather than a 404.
+The Worker also serves `/robots.txt`, `/sitemap.xml` and `/icon128.png` as routes — crawlers and link previews fetch those by URL, and there's no static-assets directory to put them in.
+
+Any other path serves the app, so a wrong URL lands on the tool rather than a 404.
 
 ## Notes
 
